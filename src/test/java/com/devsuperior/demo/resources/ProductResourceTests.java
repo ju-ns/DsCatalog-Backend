@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -64,6 +66,8 @@ public class ProductResourceTests {
         Mockito.doThrow(DataIntegrityViolationException.class).when(service).delete(dependentId);
         Mockito.doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
 
+        Mockito.when(service.insert(any())).thenReturn(productDTO);
+
 
     }
 
@@ -116,5 +120,34 @@ public class ProductResourceTests {
                         .accept(MediaType.APPLICATION_JSON));
         result.andExpect(status().isNotFound());
     }
+
+    @Test
+    public void insertShouldReturnCreatedAndProductDTO() throws Exception{
+        String jsonBody = objectMapper.writeValueAsString(productDTO);
+        ResultActions result =
+                mockMvc.perform(post("/products")
+                        .content(jsonBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+        result.andExpect(status().isCreated());
+        result.andExpect(jsonPath("$.id").exists());
+        result.andExpect(jsonPath("$.name").exists());
+    }
+
+    @Test
+    public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
+        ResultActions result =
+                mockMvc.perform(delete("/products/{id}", existingId));
+        result.andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void deleteShouldReturnNotFoundWhenIdDoesNotExists() throws Exception{
+        ResultActions result =
+                mockMvc.perform(delete("/products/{id}", nonExistingId));
+        result.andExpect(status().isNotFound());
+    }
+
+
 
 }
