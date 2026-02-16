@@ -4,7 +4,6 @@ import com.devsuperior.demo.dto.ProductDTO;
 import com.devsuperior.demo.factory.Factory;
 import com.devsuperior.demo.services.ProductService;
 import com.devsuperior.demo.services.exceptions.ResourceNotFoundException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -43,11 +43,13 @@ public class ProductResourceTests {
     private ProductDTO productDTO;
     private Long existingId;
     private Long nonExistingId;
+    private Long dependentId;
 
     @BeforeEach
     void setUp() throws Exception{
         existingId = 1L;
         nonExistingId = 2L;
+        dependentId = 3L;
         productDTO = Factory.createProductDTO();
         page = new PageImpl<>(List.of(productDTO));
 
@@ -57,6 +59,12 @@ public class ProductResourceTests {
 
         Mockito.when(service.update(any(), eq(existingId))).thenReturn(productDTO);
         Mockito.when(service.update(any(), eq(nonExistingId))).thenThrow(ResourceNotFoundException.class);
+
+        Mockito.doNothing().when(service).delete(existingId);
+        Mockito.doThrow(DataIntegrityViolationException.class).when(service).delete(dependentId);
+        Mockito.doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
+
+
     }
 
     @Test
