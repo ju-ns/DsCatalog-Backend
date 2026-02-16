@@ -17,11 +17,13 @@ public class ProductRepositoryTests {
     private ProductRepository repository;
     private long existingId;
     private long countTotalProducts;
+    private long nonExistingId;
 
     @BeforeEach
     void setUp() throws Exception{
-        Long existingId = 1L;
+        existingId = 1L;
         countTotalProducts = 25L;
+        nonExistingId = 80L;
     }
 
     @Test
@@ -41,5 +43,20 @@ public class ProductRepositoryTests {
         repository.deleteById(existingId);
         Optional<Product> result =   repository.findById(existingId);
         Assertions.assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void findByIdShouldReturnOptionalNotNullWhenIdExists(){
+        Product product = Factory.createProduct();
+        Optional<Product> entity = repository.findById(product.getId());
+
+        Assertions.assertNotNull(entity);
+    }
+
+    @Test
+    public void findByIdShouldReturnOptionalEmptyWhenIdNotExists(){
+        Optional<Product> entity = repository.findById(nonExistingId);
+        Assertions.assertTrue(entity.isEmpty());
+
     }
 }
