@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
-import org.mockito.Mock;
+
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -67,7 +67,6 @@ public class ProductResourceTests {
         Mockito.doThrow(ResourceNotFoundException.class).when(service).delete(nonExistingId);
 
         Mockito.when(service.insert(any())).thenReturn(productDTO);
-
 
     }
 
