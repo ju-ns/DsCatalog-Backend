@@ -8,12 +8,11 @@ public class UserInsertDTO extends UserDTO{
         super();
     }
 
-    @Override
+
     public String getPassword() {
         return password;
     }
 
-    @Override
     public void setPassword(String password) {
         this.password = password;
     }

@@ -2,6 +2,7 @@ package com.devsuperior.demo.dto;
 
 import com.devsuperior.demo.entities.Category;
 import com.devsuperior.demo.entities.Product;
+import jakarta.validation.constraints.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -11,10 +12,16 @@ import java.util.Set;
 public class ProductDTO {
 
     private Long id;
+
+    @Size(min = 5, max = 60, message = "should be between 5 and 60 characters" )
+    @NotBlank(message = "field required")
     private String name;
     private String description;
+    @Positive(message = "price must be positive")
     private Double price;
     private String imgUrl;
+
+    @PastOrPresent(message = "the date cannot be in the future")
     private Instant date;
     private List<CategoryDTO> categories = new ArrayList<>();
 
