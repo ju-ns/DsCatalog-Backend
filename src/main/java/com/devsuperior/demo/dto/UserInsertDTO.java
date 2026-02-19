@@ -1,5 +1,8 @@
 package com.devsuperior.demo.dto;
 
+import com.devsuperior.demo.services.validation.UserInsertValid;
+
+@UserInsertValid
 public class UserInsertDTO extends UserDTO{
 
     private String password;
