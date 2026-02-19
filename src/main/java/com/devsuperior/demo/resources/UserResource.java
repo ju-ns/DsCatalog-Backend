@@ -2,6 +2,8 @@ package com.devsuperior.demo.resources;
 
 import com.devsuperior.demo.dto.UserDTO;
 import com.devsuperior.demo.dto.UserInsertDTO;
+import com.devsuperior.demo.dto.UserUpdateDTO;
+import com.devsuperior.demo.entities.User;
 import com.devsuperior.demo.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +43,9 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserDTO dto, @PathVariable Long id){
-        dto = service.update(id, dto);
-        return ResponseEntity.ok().body(dto);
+    public ResponseEntity<UserDTO> update(@Valid @RequestBody UserUpdateDTO dto, @PathVariable Long id){
+        UserDTO newDto = service.update(id, dto);
+        return ResponseEntity.ok().body(newDto);
     }
 
     @DeleteMapping(value = "/{id}")

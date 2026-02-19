@@ -3,6 +3,7 @@ package com.devsuperior.demo.services;
 import com.devsuperior.demo.dto.RoleDTO;
 import com.devsuperior.demo.dto.UserDTO;
 import com.devsuperior.demo.dto.UserInsertDTO;
+import com.devsuperior.demo.dto.UserUpdateDTO;
 import com.devsuperior.demo.entities.Role;
 import com.devsuperior.demo.entities.User;
 import com.devsuperior.demo.repositories.RoleRepository;
@@ -54,7 +55,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto){
+    public UserDTO update(Long id, UserUpdateDTO dto){
         try{
             User user = repository.getReferenceById(id);
             copyDtoToEntity(dto,user);
@@ -75,7 +76,7 @@ public class UserService {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
-        entity.setId(dto.getId());
+        //entity.setId(dto.getId());
         entity.getRoles().clear();
         for(RoleDTO roleDTO : dto.getRoles()){
             Role role = roleRepository.getReferenceById(roleDTO.getId());

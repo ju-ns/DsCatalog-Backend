@@ -33,6 +33,7 @@ public class ResourceExceptionHandler {
         error.setTimestamp(Instant.now());
         error.setStatus(HttpStatus.BAD_REQUEST.value());
         error.setError("Database exception");
+        error.setMessage(e.getMessage());
         error.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
@@ -43,6 +44,7 @@ public class ResourceExceptionHandler {
         error.setTimestamp(Instant.now());
         error.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
         error.setError("Validation Exception");
+        error.setMessage(e.getMessage());
         error.setPath(request.getRequestURI());
 
         for(FieldError fieldError : e.getBindingResult().getFieldErrors()){
