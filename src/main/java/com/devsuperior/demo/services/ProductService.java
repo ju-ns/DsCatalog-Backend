@@ -55,15 +55,15 @@ public class ProductService {
         Product entity = new Product();
         copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
-        return new ProductDTO(entity);
+        return new ProductDTO(entity, entity.getCategories());
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
-        entity.setDate(entity.getDate());
-        entity.setPrice(entity.getPrice());
-        entity.setImgUrl(entity.getImgUrl());
+        entity.setDate(dto.getDate());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
 
         entity.getCategories().clear();
         for(CategoryDTO categoryDTO : dto.getCategories()){
