@@ -7,18 +7,19 @@ import java.io.Serializable;
 public class RoleDTO implements Serializable {
 
     private Long id;
-    private String authrity;
+    private String authority;
 
     public RoleDTO(Long id, String authrity) {
         this.id = id;
-        this.authrity = authrity;
+        this.authority = authrity;
     }
     public RoleDTO(){}
 
     public RoleDTO(Role entity){
         id = entity.getId();
-        authrity = entity.getAuthority();
+        authority = entity.getAuthority();
     }
+
 
     public Long getId() {
         return id;
@@ -29,10 +30,10 @@ public class RoleDTO implements Serializable {
     }
 
     public String getAuthrity() {
-        return authrity;
+        return authority;
     }
 
     public void setAuthrity(String authrity) {
-        this.authrity = authrity;
+        this.authority = authrity;
     }
 }

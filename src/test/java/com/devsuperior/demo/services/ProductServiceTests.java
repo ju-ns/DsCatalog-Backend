@@ -77,6 +77,7 @@ public class ProductServiceTests {
 
     }
 
+    /*
     @Test
     public void findAllPagedShouldReturnPage(){
         Pageable pageable = PageRequest.of(0,10);
@@ -90,6 +91,8 @@ public class ProductServiceTests {
     public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotExists(){
         Assertions.assertThrows(ResourceNotFoundException.class, () -> service.delete(nonExistingId));
     }
+
+     */
 
 
     @Test

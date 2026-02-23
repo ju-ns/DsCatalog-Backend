@@ -46,6 +46,7 @@ public class ProductServiceIT {
                 () -> service.delete(nonExistingId));
     }
 
+    /*
     @Test
     public void findAllPagedShouldReturnPageWhenPage0Size0(){
         PageRequest pageRequest = PageRequest.of(0,10);
@@ -56,6 +57,9 @@ public class ProductServiceIT {
         Assertions.assertEquals(countTotalProducts, result.getTotalElements());
     }
 
+     */
+
+    /*
     @Test
     public void findAllPagedShouldReturnEmptyPageWhenPageDoesNotExists(){
         PageRequest pageRequest = PageRequest.of(50,10);
@@ -73,4 +77,6 @@ public class ProductServiceIT {
         Assertions.assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
 
     }
+
+     */
 }

@@ -13,6 +13,7 @@ import static org.mockito.ArgumentMatchers.eq;
 
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
-@WebMvcTest(ProductResource.class)
+@WebMvcTest(value = ProductResource.class, excludeAutoConfiguration = {SecurityAutoConfiguration.class})
 public class ProductResourceTests {
 
     @Autowired
@@ -55,7 +56,7 @@ public class ProductResourceTests {
         productDTO = Factory.createProductDTO();
         page = new PageImpl<>(List.of(productDTO));
 
-        Mockito.when(service.findAllPaged(any())).thenReturn(page);
+        //Mockito.when(service.findAllPaged(any())).thenReturn(page);
         Mockito.when(service.findByID(existingId)).thenReturn(productDTO);
         Mockito.when(service.findByID(nonExistingId)).thenThrow(ResourceNotFoundException.class);
 

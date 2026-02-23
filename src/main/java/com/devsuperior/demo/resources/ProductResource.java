@@ -1,9 +1,11 @@
 package com.devsuperior.demo.resources;
 
 import com.devsuperior.demo.dto.ProductDTO;
+import com.devsuperior.demo.projection.ProductProjetion;
 import com.devsuperior.demo.services.CategoryService;
 import com.devsuperior.demo.services.ProductService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -24,8 +27,10 @@ public class ProductResource {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAllPaged(Pageable pageable){
-        Page<ProductDTO> list = service.findAllPaged(pageable);
+    public ResponseEntity<Page<ProductProjetion>> findAllPaged(@RequestParam(value = "name", defaultValue = "") String name,
+                                                          @RequestParam(value = "categoryId", defaultValue = "0") String categoryId,
+                                                          Pageable pageable){
+        Page<ProductProjetion> list = service.findAllPaged(name,categoryId,pageable);
         return ResponseEntity.ok().body(list);
     }
 
