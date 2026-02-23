@@ -18,7 +18,7 @@ O projeto implementa autenticação OAuth2 com JWT, controle de acesso por roles
 - Hibernate
 - Bean Validation
 - H2 (test)
-- PostgreSQL (produção)
+- PostgreSQL (dev)
 - Maven
 
 ---
