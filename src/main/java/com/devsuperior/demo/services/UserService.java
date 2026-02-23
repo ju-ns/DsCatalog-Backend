@@ -37,6 +37,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthService authService;
+
     @Transactional(readOnly = true)
     public Page<UserDTO> findAllPaged(Pageable pageable){
         Page<User> usersEntity = repository.findAll(pageable);
@@ -54,6 +57,11 @@ public class UserService implements UserDetailsService {
     public UserDTO insert(UserInsertDTO dto){
         User user = new User();
         copyDtoToEntity(dto, user);
+
+        user.getRoles().clear();
+        Role role = roleRepository.findByAuthority("ROLE_OPERATOR");
+
+        user.getRoles().add(role);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user = repository.save(user);
         return new UserDTO(user);
@@ -102,4 +110,11 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
+    @Transactional(readOnly = true)
+    public UserDTO findMe(){
+       User userAutenticated = authService.authenticated();
+       return new UserDTO(userAutenticated);
+    }
+
 }

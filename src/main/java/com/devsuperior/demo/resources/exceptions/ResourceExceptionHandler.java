@@ -1,6 +1,8 @@
 package com.devsuperior.demo.resources.exceptions;
 
+import com.devsuperior.demo.services.EmailService;
 import com.devsuperior.demo.services.exceptions.DatabaseException;
+import com.devsuperior.demo.services.exceptions.EmailException;
 import com.devsuperior.demo.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpRequest;
@@ -53,4 +55,16 @@ public class ResourceExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
     }
+
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<StandartError> email(EmailException e, HttpServletRequest request){
+        StandartError error = new StandartError();
+        error.setTimestamp(Instant.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setError("Email exception");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
 }
