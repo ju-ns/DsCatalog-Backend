@@ -27,10 +27,10 @@ public class ProductResource {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductProjetion>> findAllPaged(@RequestParam(value = "name", defaultValue = "") String name,
+    public ResponseEntity<Page<ProductDTO>> findAllPaged(@RequestParam(value = "name", defaultValue = "") String name,
                                                           @RequestParam(value = "categoryId", defaultValue = "0") String categoryId,
                                                           Pageable pageable){
-        Page<ProductProjetion> list = service.findAllPaged(name,categoryId,pageable);
+        Page<ProductDTO> list = service.findAllPaged(name,categoryId,pageable);
         return ResponseEntity.ok().body(list);
     }
 
